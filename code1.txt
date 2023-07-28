@@ -1,0 +1,67 @@
+local Module = require(game.ReplicatedStorage.ModuleScript)
+local Button = game.Workspace.Click.Button
+local EventLastTime = 20
+local EventActive = "nil"
+Button.ClickDetector.MouseClick:Connect(function(plr)
+if EventActive == "nil" then
+Button.Size = Vector3.new(Button.Size.X, 4.6, Button.Size.Z)
+wait(0.15)
+Button.Size = Vector3.new(Button.Size.X, 5, Button.Size.Z)
+local RandomE = Module.Events[math.random(1, #Module.Events)]
+EventActive = RandomE.name
+wait(0.1)
+print(EventActive)
+if EventActive == "Space" then
+for i, player in ipairs(game.Players:GetPlayers()) do
+if player then
+local Ui = player.PlayerGui
+Ui.event.TextLabel.Visible = true
+Ui.event.TextLabel.Text = plr.Name.." Pressed The Button ("..EventActive.." Event Was Chosen)"
+else
+return
+end
+end
+wait(5)
+for i, player in ipairs(game.Players:GetPlayers()) do
+if player then
+local Ui = player.PlayerGui
+Ui.event.TextLabel.Visible = false
+local BodyForce = Instance.new("BodyForce")
+BodyForce.Force = Vector3.new(0, 5000, 0)
+BodyForce.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+player.Character:WaitForChild("HumanoidRootPart").CFrame += Vector3.new(0, 10, 0)
+else
+return
+end
+end
+wait(3)
+game.ReplicatedStorage["Purple Nebula"]:Clone().Parent = game.Lighting
+wait(EventLastTime)
+print("Finished Space Event!")
+for i, player in ipairs(game.Players:GetPlayers()) do
+if player then
+local Ui = player.PlayerGui
+Ui.event.TextLabel.Visible = true
+Ui.event.TextLabel.Text = EventActive.." Event Is Over!"
+else
+return
+end
+end
+wait(3)
+for i, player in ipairs(game.Players:GetPlayers()) do
+if player and player.Character:FindFirstChild("HumanoidRootPart").BodyForce then
+local Ui = player.PlayerGui
+Ui.event.TextLabel.Visible = false
+player.Character:WaitForChild("Humanoid").Health = 0
+player.Character:FindFirstChild("HumanoidRootPart").BodyForce:Destroy()
+else
+return
+end
+end
+game.Lighting["Purple Nebula"]:Destroy()
+EventActive = "nil"
+end
+--
+
+end
+end)

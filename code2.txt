@@ -1,0 +1,237 @@
+--[[
+ALL COMMANDS I THINK LOL
+
+-- :speed (changes your speed to the number you put after example: /speed 50) original speed is 16
+
+-- :fly (makes you fly :/)
+
+-- :jumppower (makes you jump way higher same thing is speed but for jumping example: /jumppower 500) original jump power is 7.2
+
+-- :hipheight (can make you tall as hell if you want example: /hipheight 100) original is 3.041
+
+-- :Freset (will force your player to reset in case you normally cant lol thats why its (F)reset not reset)
+
+-- :give (gives the player you want an amount of a stat you want example: :give PlayerName Coins 100 (it does not have to be coins it can be any stat in the game))
+
+-- :remove (removes the player you want an amount of a stat you want example: :remove PlayerName Coins 100 (it does not have to be coins it can be any stat in the game))
+
+-- :resetstats (resets every stat of the player you want example: :resetstats PlayerName)
+
+-- :kick (kicks the player from the game example: :kick PlayerName)
+
+-- :ban (bans the player from the server forever until the server is deleted after everyone leaves it example: :ban playername)
+
+-- :announce (sends an announcement to your current server to all the players example: :announce Hi People!) btw you can put any text you want after
+]]
+
+game.Players.PlayerAdded:Connect(function(player)
+local Admins = {"2x2x2xiwillfindyou", "WirySuperMaster52"}
+if player.UserId == game.CreatorId then
+wait(2.5)
+local Gui = Instance.new("ScreenGui")
+local TextLabel = Instance.new("TextLabel")
+local UiCorner = Instance.new("UICorner")
+Gui.Parent = player.PlayerGui
+TextLabel.Parent = Gui
+UiCorner.Parent = TextLabel
+TextLabel.Text = "You are the game creator! Thanks for using my admin!"
+TextLabel.Font = Enum.Font.FredokaOne
+TextLabel.TextScaled = true
+UiCorner.CornerRadius = UDim.new(0, 15)
+TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+TextLabel.Size = UDim2.new(0, 195,0, 69)
+TextLabel.Position = UDim2.new(0.778, 0,0.708, 0)
+wait(4)
+Gui:Destroy()
+else
+if table.find(Admins, player.Name) then
+wait(2.5)
+local Gui = Instance.new("ScreenGui")
+local TextLabel = Instance.new("TextLabel")
+local UiCorner = Instance.new("UICorner")
+Gui.Parent = player.PlayerGui
+TextLabel.Parent = Gui
+UiCorner.Parent = TextLabel
+TextLabel.Text = "You are a admin!"
+TextLabel.Font = Enum.Font.FredokaOne
+TextLabel.TextScaled = true
+UiCorner.CornerRadius = UDim.new(0, 15)
+TextLabel.BackgroundColor3 = Color3.new(1, 1, 1)
+TextLabel.Size = UDim2.new(0, 195,0, 69)
+TextLabel.Position = UDim2.new(0.778, 0,0.708, 0)
+wait(4)
+Gui:Destroy()
+end
+end
+-- fly --
+--	
+-- speed --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local prefix = ":speed "
+if string.sub(message, 1, string.len(prefix)) == prefix then
+local WS = tonumber(string.sub(message, string.len(prefix) + 1))
+if WS then
+player.Character.Humanoid.WalkSpeed = WS
+end
+end
+end
+end)
+-- jump power --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local prefix = ":jumppower "
+if string.sub(message, 1, string.len(prefix)) == prefix then
+local JP = tonumber(string.sub(message, string.len(prefix) + 1))
+if JP then
+player.Character.Humanoid.JumpHeight = JP
+end
+end
+end
+end)	
+--
+-- hip height --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local prefix = ":hipheight "
+if string.sub(message, 1, string.len(prefix)) == prefix then
+local HipH = tonumber(string.sub(message, string.len(prefix) + 1))
+if HipH then
+player.Character.Humanoid.HipHeight = HipH
+end
+end
+end
+end)
+--
+-- force reset --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local prefix = ":Freset"
+if message == prefix then
+player.Character.Humanoid.Health = 0
+end
+end
+end)
+-- 
+-- give currency --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local players = game:GetService("Players")
+local splitMessage = string.split(message, " ")
+local command = splitMessage[1]
+if command == ":give" then
+local targetPlayer
+local targetName = splitMessage[2]
+local currencyName = splitMessage[3]
+local currencyValue = tonumber(splitMessage[4])
+for i, p in pairs(players:GetPlayers()) do
+if p.Name == targetName or p.DisplayName == targetName then
+targetPlayer = p
+break
+end
+end
+local targetHasCurrency = false
+for i, stat in pairs(targetPlayer.leaderstats:GetChildren()) do
+if stat.Name == currencyName then
+targetHasCurrency = true
+targetPlayer.leaderstats[currencyName].Value = targetPlayer.leaderstats[currencyName].Value + currencyValue
+return
+end
+end
+end
+end
+end)	
+--
+-- remove currency --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local players = game:GetService("Players")
+local splitMessage = string.split(message, " ")
+local command = splitMessage[1]
+if command == ":remove" then
+local targetPlayer
+local targetName = splitMessage[2]
+local currencyName = splitMessage[3]
+local currencyValue = tonumber(splitMessage[4])
+for i, p in pairs(players:GetPlayers()) do
+if p.Name == targetName or p.DisplayName == targetName then
+targetPlayer = p
+break
+end
+end
+local targetHasCurrency = false
+for i, stat in pairs(targetPlayer.leaderstats:GetChildren()) do
+if stat.Name == currencyName then
+targetHasCurrency = true
+targetPlayer.leaderstats[currencyName].Value = targetPlayer.leaderstats[currencyName].Value - currencyValue
+return
+end
+end
+end
+end
+end)	
+-- 
+-- reset stats --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local players = game:GetService("Players")
+local splitMessage = string.split(message, " ")
+local command = splitMessage[1]
+if command == ":resetstats" then
+for i, p in pairs(players:GetPlayers()) do
+for i, stat in pairs(p.leaderstats:GetChildren()) do
+p.leaderstats[stat.Name].Value = 0
+end
+end
+end
+end
+end)	
+--	
+-- kick --
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local players = game.Players
+local splitMessage = string.split(message, " ")
+local command = splitMessage[1]
+if command == ":kick" then
+local targetPlayer
+local targetName = splitMessage[2]
+for i, p in pairs(players:GetPlayers()) do
+if p.Name == targetName or p.DisplayName == targetName then
+targetPlayer = p
+break
+end
+end
+if targetPlayer == nil then
+return
+end
+targetPlayer:Kick("Kicked by " .. player.Name .. " ("..player.DisplayName..").")
+end
+end
+end)
+--
+-- server ban --
+local DataStoreService = game:GetService("DataStoreService")
+local banDataStore = DataStoreService:GetDataStore("BanDataStore")
+game.Players.PlayerAdded:Connect(function(player)
+local isBanned = banDataStore:GetAsync(player.UserId)
+if isBanned then
+player:Kick("You are banned from this server.")
+end
+end)
+game.Players.PlayerRemoving:Connect(function(player)
+banDataStore:SetAsync(player.UserId, true)
+end)
+player.Chatted:Connect(function(message)
+if table.find(Admins, player.Name) then
+local args = string.split(message, " ")
+if args[1] == ":ban" and #args >= 2 then
+local targetPlayer = game.Players:FindFirstChild(args[2])
+if targetPlayer then
+banDataStore:SetAsync(targetPlayer.UserId, true)
+targetPlayer:Kick("You have been banned from the server by " .. game.Players.LocalPlayer.Name .. ".")
+end
+end
+end
+end)
+end)
